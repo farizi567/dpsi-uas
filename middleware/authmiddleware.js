@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'parijigento';
 
 exports.authenticate = (req, res, next) => {
-  const authHeader = req.headers['authorization'];
+  const authHeader = req.headers['Authorization'];
   
   if (!authHeader) {
     return res.status(403).send({ message: 'No token provided' });
