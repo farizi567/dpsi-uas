@@ -2,10 +2,16 @@ const jwt = require('jsonwebtoken');
 const secretKey = 'parijigento';
 
 exports.authenticate = (req, res, next) => {
-  const token = req.headers['authorization'];
+  const authHeader = req.headers['authorization'];
+  
+  if (!authHeader) {
+    return res.status(403).send({ message: 'No token provided' });
+  }
+
+  const token = authHeader.split(' ')[1]; // Extract token from 'Bearer <token>'
 
   if (!token) {
-    return res.status(403).send({ message: 'No token provided' });
+    return res.status(403).send({ message: 'Token format is invalid' });
   }
 
   jwt.verify(token, secretKey, (err, decoded) => {
